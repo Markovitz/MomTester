@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="card">
+      <div class="card-header">
+        <TheNavigation/>
+      </div>
+      <div class="card-body">
+        <transition name="slide" mode="out-in">
+          <router-view/>  
+        </transition>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import TheNavigation from '@/components/TheNavigation.vue'
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  components:{
+    TheNavigation
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+.slide-enter-active {
+  transition: .5s;
 }
+
+.slide-leave-active {
+  transition: 1s;
+}
+
+.slide-enter, .slide-leave-to {
+  opacity: 0;
+}
+
 </style>
