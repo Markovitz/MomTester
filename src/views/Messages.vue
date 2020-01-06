@@ -1,6 +1,9 @@
 <template>
   <div class="messages">
-    <Messages :msg='id'/>
+    {{id}}
+    <Messages 
+      :msg='id'
+      @changeMessage='changeMessage($event)' />
   </div>
 </template>
 
@@ -12,11 +15,19 @@ export default {
   name: 'messages',
   props: {
     id: {
-      type: String
+      type: String,
+      required: false
     }
   },
   components: {
     Messages
+  },
+  methods: {
+    changeMessage(messageId) {
+      console.log('New message Id:' + messageId);
+      if (messageId !== undefined)
+        this.$router.push({ name: 'message',  params: { id: messageId } });
+    }
   }
 }
 </script>

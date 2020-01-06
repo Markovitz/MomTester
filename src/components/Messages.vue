@@ -27,24 +27,20 @@ export default {
   name: 'Messages',
   props: {
     msg: {
-      type: String
-    }
-  },
-  watch: {
-    '$route'(to, from) {
-      console.log(from.params.id + '=>' + to.params.id);
+      type: String,
+      required: false
     }
   },
   methods: {
     showMessage() {
-      this.$router.replace({
-        name: 'message',
-        params: {
-          id: this.messageId
-        }
-      });
+      this.$emit('changeMessage', this.messageId);
     }
-  }
+  },
+  computed: {
+    theMessageId: function() {
+      return this.msg;
+    }
+  },
 }
 </script>
 
