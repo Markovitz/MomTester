@@ -1,20 +1,30 @@
 <template>
-  <div class="card" style="width: 48rem;">
-    <div class="card-body">
-        <div class="form-group row">
-          <label for="messageId" class="col-sm-2 col-form-label">Message Id:</label>
-          <div class="col-sm-10">
-            <input type="number" class="form-control" id="messageId" placeholder="Message Id" v-model='messageId'>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-10">
-            <button type="button" class="btn btn-primary" @click="showMessage">Show Message</button>
-          </div>
-        </div>
-    </div>
-    Message ID: {{messageId}}
-  </div>
+    <b-container>
+      <div>
+        <b-card-group deck>
+          <b-card title="Patient-Order" header-tag="header" footer-tag="footer">
+            <template v-slot:header>
+              <h6 class="mb-0"></h6>
+            </template>
+            <b-card-text>
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-small" >Order#:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input id="input-small" size="sm" placeholder="Order Number" v-model='messageId'></b-form-input>
+                </b-col>
+              </b-row>
+            </b-card-text>
+            <template v-slot:footer>
+              <div>
+                <b-button href="#" variant="primary" :disabled="!canShowMessage" @click="showMessage">Show Messages</b-button>
+              </div>
+            </template>
+          </b-card>
+        </b-card-group>
+      </div>
+    </b-container>
 </template>
 
 <script>
@@ -37,8 +47,8 @@ export default {
     }
   },
   computed: {
-    theMessageId: function() {
-      return this.msg;
+    canShowMessage: function() {
+      return this.messageId !== undefined && this.messageId.trim().length >= 3;
     }
   },
 }

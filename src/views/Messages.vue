@@ -1,6 +1,5 @@
 <template>
   <div class="messages">
-    {{id}}
     <Messages 
       :msg='id'
       @changeMessage='changeMessage($event)' />
