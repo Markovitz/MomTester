@@ -25,8 +25,9 @@ export default {
   methods: {
     changeMessage(messageId) {
       console.log('New message Id:' + messageId);
-      if (messageId !== undefined)
+      if (messageId !== undefined && messageId !== this.$route.params.id) { 
         this.$router.push({ name: 'message',  params: { id: messageId } });
+      }
     }
   }
 }
