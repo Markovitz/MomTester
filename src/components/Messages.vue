@@ -2,17 +2,25 @@
     <b-container>
       <div>
         <b-card-group deck>
-          <b-card title="Patient-Order" header-tag="header" footer-tag="footer">
+          <b-card title="Find Messages on MOM" header-tag="header" footer-tag="footer">
             <template v-slot:header>
               <h6 class="mb-0"></h6>
             </template>
             <b-card-text>
               <b-row class="my-1">
                 <b-col sm="2">
-                  <label for="input-small" >Order#:</label>
+                  <label for="input-small" >Sender Code:</label>
                 </b-col>
                 <b-col sm="10">
-                  <b-form-input id="input-small" size="sm" placeholder="Order Number" v-model='messageId'></b-form-input>
+                  <b-form-input id="input-small" size="sm" placeholder="Sender Code" v-model='senderCode'></b-form-input>
+                </b-col>
+              </b-row>
+              <b-row class="my-1">
+                <b-col sm="2">
+                  <label for="input-small" >Event Code:</label>
+                </b-col>
+                <b-col sm="10">
+                  <b-form-input id="input-small" size="sm" placeholder="Event Code" v-model='eventCode'></b-form-input>
                 </b-col>
               </b-row>
             </b-card-text>
@@ -31,6 +39,8 @@
 export default {
   data() {
     return {
+      senderCode: '',
+      eventCode: '',
       messageId: this.msg
     }
   },
@@ -43,12 +53,15 @@ export default {
   },
   methods: {
     showMessage() {
-      this.$emit('changeMessage', this.messageId);
+      this.$emit('changeMessage', {
+        senderCode: this.senderCode,
+        eventCode: this.eventCode
+      });
     }
   },
   computed: {
     canShowMessage: function() {
-      return this.messageId !== undefined && this.messageId.trim().length >= 3;
+      return this.senderCode.trim().length >= 3 && this.eventCode.trim().length >= 3;
     }
   },
 }
