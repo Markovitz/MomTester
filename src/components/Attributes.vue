@@ -21,7 +21,7 @@ export default {
   name: 'Attributes',
   props: {
     attributes: {
-      type: Object,
+      type: String,
       required: true
     }
   },

@@ -9,9 +9,13 @@
       </div>
       <div key="2" v-else>
         <b-row :key="message.id" v-for="(message, nodeId) in messages">
-          <b-col sm="6" @click="showHide(nodeId)">{{message.id}} - {{message.sendDate}}
+          <b-col sm="8" @click="showHide(nodeId)">{{message.id}} &nbsp; {{message.sendDate}} &nbsp; {{message.dict.senderCode}} &nbsp; {{message.dict.eventCode}}
             <b-card v-show="itemToShow.indexOf(nodeId) != -1">
               <Attributes :attributes='message.packedAttributes1'/>
+              <Destinations :messageId='message.id' :dict='{
+                senderCode: message.dict.senderCode,
+                eventCode: message.dict.eventCode
+              }'/>
             </b-card>
           </b-col>
         </b-row>
@@ -23,6 +27,7 @@
 // @ is an alias to /src
 import Messages from '@/components/Messages.vue'
 import Attributes from '@/components/Attributes.vue'
+import Destinations from '@/components/Destinations.vue'
 import axios from 'axios';
 
 export default {
@@ -44,7 +49,8 @@ export default {
   },
   components: {
     Messages,
-    Attributes
+    Attributes,
+    Destinations
   },
   methods: {
     async changeMessage(attributes) {
@@ -82,6 +88,7 @@ export default {
     try{
       let {data} = await this.axios("http://localhost:8888/mom/messages/10");
       this.messages = data;
+      console.log(this.messages);
       this.loading = false;
     }catch(err){
       console.log('created error', err);
