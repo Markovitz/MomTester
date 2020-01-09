@@ -11,7 +11,7 @@
         <b-row :key="message.id" v-for="(message, nodeId) in messages">
           <b-col sm="6" @click="showHide(nodeId)">{{message.id}} - {{message.sendDate}}
             <b-card v-show="itemToShow.indexOf(nodeId) != -1">
-              {{showAttributes(`${message.packedAttributes1}`)}}
+              <Attributes :attributes='message.packedAttributes1'/>
             </b-card>
           </b-col>
         </b-row>
@@ -22,6 +22,7 @@
 <script>
 // @ is an alias to /src
 import Messages from '@/components/Messages.vue'
+import Attributes from '@/components/Attributes.vue'
 import axios from 'axios';
 
 export default {
@@ -42,7 +43,8 @@ export default {
     }
   },
   components: {
-    Messages
+    Messages,
+    Attributes
   },
   methods: {
     async changeMessage(attributes) {
