@@ -31,14 +31,24 @@ export default {
         required: true
     }
   },
-  async created() {
-    try{
-      let {data} = await this.axios.post("http://localhost:8888/mom/messages/"+this.messageId+"/destinations", this.dict)
-      this.destinations = data;
-      console.log(data);
-    }catch(err){
-      console.log('loadDestinations', err);
+  methods: {
+    loadDestinations() {
+        this.axios.post("http://localhost:8888/mom/messages/"+this.messageId+"/destinations", this.dict)
+        .then(response => {
+            this.destinations = response.data;
+        }).catch(err => {
+            console.log('loadDestinations', err);
+        });
     }
+  },
+  watch: {
+      messageId: function(newValue, oldValue) {
+          console.log('Prop changed: '+newValue+', was '+oldValue);
+          this.loadDestinations();
+      }
+  },
+  created: function() {
+      this.loadDestinations();
   }
 }
 </script>

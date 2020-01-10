@@ -1,43 +1,58 @@
 <template>
   <div class="messages">
-    <Messages 
-      :msg='id'
-      @changeMessage='changeMessage($event)' />
+      <TheMessagesSearch @changeMessage='changeMessage($event)'/>
 
-      <div key="1" v-if="loading" class="d-flex justify-content-center my-5">  
-        <b-spinner variant="primary"/>
-      </div>
-      <div key="2" v-else>
-        <b-row :key="message.id" v-for="(message, nodeId) in messages">
-          <b-col sm="8" @click="showHide(nodeId)">{{message.id}} &nbsp; {{message.sendDate}} &nbsp; {{message.dict.senderCode}} &nbsp; {{message.dict.eventCode}}
-            <b-card v-show="itemToShow.indexOf(nodeId) != -1">
-              <Attributes :attributes='message.packedAttributes1'/>
-              <Destinations :messageId='message.id' :dict='{
-                senderCode: message.dict.senderCode,
-                eventCode: message.dict.eventCode
-              }'/>
-            </b-card>
-          </b-col>
-        </b-row>
+      <div class="top-margin">
+        <div key="1" v-if="loading" class="d-flex justify-content-center my-5">  
+          <b-spinner variant="primary"/>
+        </div>
+        <div key="2" v-else>
+          <div class="row">
+            <div class="col s3">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Messages</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                          <tr :key="msg.id" v-for="msg in messages">
+                            <td><span>{{msg.dict.senderCode}}</span></td>
+                            <td><span>{{msg.dict.eventCode}}</span></td>
+                            <td>
+                            <a href="#!" @click="loadMessage(msg)" class="secondary-content">
+                              <i class="material-icons">{{msg.id}}</i>
+                            </a>
+                            </td>
+                            <td><span class="new badge blue" data-badge-caption="child">1</span></td>
+                          </tr>
+                </tbody>
+                </table>
+            </div>
+            <div class="col s9">
+               <Message :message='message' v-if="active"/>
+            </div>  
+          </div>
+        </div>
+
       </div>
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Messages from '@/components/Messages.vue'
-import Attributes from '@/components/Attributes.vue'
-import Destinations from '@/components/Destinations.vue'
+import TheMessagesSearch from '@/components/TheMessagesSearch.vue'
+import Message from '@/components/Message.vue'
 import axios from 'axios';
 
 export default {
   data() {
     return {
       loading: true,
+      active: false,
       fields: ['id', 'sendDate', 'packedAttributes1'],
       messages: [],
-      attributes: [],
-      itemToShow: []
+      message: {}
     }
   },
   name: 'messages',
@@ -48,9 +63,8 @@ export default {
     }
   },
   components: {
-    Messages,
-    Attributes,
-    Destinations
+    TheMessagesSearch,
+    Message
   },
   methods: {
     async changeMessage(attributes) {
@@ -69,19 +83,9 @@ export default {
         console.log(err);
       }
     },
-    //if (messageId !== undefined && messageId !== this.$route.params.id) { 
-    //  this.$router.push({ name: 'message',  params: { id: messageId } });
-    //}
-    showAttributes: function(attributes) {
-      return attributes.split(';');
-    },
-    showHide: function(nodeId) {
-      let idx = this.itemToShow.indexOf(nodeId);
-      if (idx != -1) {
-        this.itemToShow.splice(idx, 1);
-      } else {
-        this.itemToShow.push(nodeId);
-      }
+    loadMessage: function(msg) {
+      this.message = msg;
+      this.active = true;
     }
   },
   async created(){
@@ -96,3 +100,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .top-margin {
+    margin-top: 50px;
+  }
+</style>
