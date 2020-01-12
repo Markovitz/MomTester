@@ -13,6 +13,9 @@ Vue.config.productionTip = false
 
 axios.defaults.baseURL = 'http://localhost:8888';
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
 

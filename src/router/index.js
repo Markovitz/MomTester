@@ -1,10 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Messages from '../views/Messages.vue'
+import Messages  from '../views/Messages.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('../views/auth/Register.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/auth/Login.vue')
+  },
   {
     path: '/',
     name: 'messages',
