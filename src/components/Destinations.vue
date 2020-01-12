@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     loadDestinations() {
-        this.axios.post("http://localhost:8888/mom/messages/"+this.messageId+"/destinations", this.dict)
+        this.axios.post("/mom/messages/"+this.messageId+"/destinations", this.dict)
         .then(response => {
             this.destinations = response.data;
         }).catch(err => {

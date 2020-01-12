@@ -77,7 +77,7 @@ export default {
         }
       }
       try {
-        let {data} = await axios.post("http://localhost:8888/mom/messages", attributes, axiosConfig);
+        let {data} = await axios.post("/mom/messages", attributes, axiosConfig);
         this.messages = data;
       }catch(err){
         console.log(err);
@@ -90,7 +90,7 @@ export default {
   },
   async created(){
     try{
-      let {data} = await this.axios("http://localhost:8888/mom/messages/10");
+      let {data} = await this.axios("/mom/messages/10");
       this.messages = data;
       console.log(this.messages);
       this.loading = false;

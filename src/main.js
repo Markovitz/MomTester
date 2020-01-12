@@ -11,6 +11,8 @@ import 'materialize-css/dist/css/materialize.css'
 
 Vue.config.productionTip = false
 
+axios.defaults.baseURL = 'http://localhost:8888';
+
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
 

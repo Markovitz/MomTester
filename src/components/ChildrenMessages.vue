@@ -33,7 +33,7 @@ export default {
   methods: {
     async loadChildren() {
       try{
-        let {data} = await this.axios("http://localhost:8888/mom/messages/"+this.messageId+"/children")
+        let {data} = await this.axios("/mom/messages/"+this.messageId+"/children")
         this.messages = data;
         console.log(data);
       }catch(err){
