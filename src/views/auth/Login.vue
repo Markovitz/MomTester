@@ -47,7 +47,7 @@
               </b-form-valid-feedback>
             </b-form-group>
 
-            <b-button type="submit" variant="primary" :disabled="$v.$invalid">Zaloguj</b-button> &nbsp;
+            <b-button type="submit" variant="primary" :disabled="$v.$invalid">Login</b-button> &nbsp;
             <b-button type="reset" variant="danger">Reset</b-button>
           </b-form>
         </b-col>
@@ -58,10 +58,8 @@
 
 <script>
   import { required, minLength, email } from 'vuelidate/lib/validators'
-  import BFormInvalidFeedback from 'bootstrap-vue/src/components/form/form-invalid-feedback';
-
+  
   export default {
-    components: {BFormInvalidFeedback},
     data(){
       return {
         email: '',
@@ -79,8 +77,13 @@
       }
     },
     methods: {
-      onSubmit(event){
+      async onSubmit(event){
         event.preventDefault();
+        await this.$store.dispatch('login', {
+          email: this.email,
+          password: this.password,
+          returnSecureToken: true
+        });
       },
       onReset(event){
         event.preventDefault();

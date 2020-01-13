@@ -58,8 +58,7 @@
 
 <script>
   import { required, minLength, email } from 'vuelidate/lib/validators'
-  import authAxios from '../../auth-axios';
-
+  
   export default {
     data(){
       return {
@@ -80,16 +79,11 @@
     methods: {
       async onSubmit(event){
         event.preventDefault();
-        try{
-            let response = await authAxios.post('accounts:signUp?key=AIzaSyCzTKIT79uVw8Ri6zbBRIvD2ZNpUA2AMHM ', {
-                email: this.email,
-                password: this.password,
-                returnSecureToken: true
-            });
-            console.log(response);
-        }catch(err){
-            console.log(err);
-        }
+        await this.$store.dispatch('register', {
+          email: this.email,
+          password: this.password,
+          returnSecureToken: true
+        });
       },
       onReset(event){
         event.preventDefault();
