@@ -51,7 +51,6 @@ export default {
       loading: true,
       active: false,
       fields: ['id', 'sendDate', 'packedAttributes1'],
-      messages: [],
       message: {}
     }
   },
@@ -65,6 +64,11 @@ export default {
   components: {
     TheMessagesSearch,
     Message
+  },
+  computed: {
+    messages() {
+      return this.$store.state.messages;
+    }
   },
   methods: {
     async changeMessage(attributes) {
@@ -89,14 +93,8 @@ export default {
     }
   },
   async created(){
-    try{
-      let {data} = await this.axios("/mom/messages/10");
-      this.messages = data;
-      console.log(this.messages);
-      this.loading = false;
-    }catch(err){
-      console.log('created error', err);
-    }
+    await this.$store.dispatch('getMessages', {count:10});
+    this.loading = false;
   }
 }
 </script>

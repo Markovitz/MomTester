@@ -1,7 +1,9 @@
 <template>
     <div>
         <h4>Destinations</h4>
-        <b-table :fields="fields" :items="destinations"/>                
+        <div v-if="destinations.length > 0">
+            <b-table :fields="fields" :items="destinations"/>
+        </div>
     </div>
 </template>
 

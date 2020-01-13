@@ -1,8 +1,8 @@
 <template>
     <b-container>
       <div>
-        <b-button v-b-toggle.search-panel variant="primary">Search Panel</b-button>
-        <b-collapse id="search-panel" class="mt-2">
+        <b-button v-b-toggle.searchPanel variant="primary">Search Panel</b-button>
+        <b-collapse id="searchPanel" class="mt-2">
         <b-card-group deck>
           <b-card title="Find Messages on MOM" header-tag="header" footer-tag="footer">
             <template v-slot:header>
@@ -49,10 +49,10 @@
               
               <b-row class="my-1">
                 <b-col sm="2">
-                  <label for="input-small" >Destination:</label>
+                  <label for="input-small" >Destinations:</label>
                 </b-col>
                 <b-col sm="10">
-                  <b-form-input id="input-small" size="sm" placeholder="Destination" v-model='destination'></b-form-input>
+                  <b-form-input id="input-small" size="sm" placeholder="Destinations" v-model='destinations'></b-form-input>
                 </b-col>
               </b-row>
 
@@ -76,8 +76,8 @@ export default {
          messageId: 0,
         senderCode: '',
          eventCode: '',
-        attributes: [],
-      destinations: []
+        attributes: '',
+      destinations: ''
     }
   },
   name: 'MessagesSearch',

@@ -1,7 +1,7 @@
 <template>
   <div class="padding">
     <div class="white-card">
-      <h1>Logowanie</h1>
+      <h1>Login</h1>
       <b-row>
         <b-col sm="6" offset-sm="3">
           <b-form @submit="onSubmit" @reset="onReset">
@@ -16,13 +16,13 @@
                       @input="$v.email.$model = $event.trim()"
                       :state="!$v.email.$dirty ? null : !$v.email.$error"
                       required
-                      placeholder="Podaj adres email" />
+                      placeholder="Email address" />
               <b-form-invalid-feedback>
-                <span v-if="!$v.email.required">To pole jest wymagane. </span>
-                <span v-if="!$v.email.email">Błędny adres email. </span>
+                <span v-if="!$v.email.required">This field is required. </span>
+                <span v-if="!$v.email.email">Email is not valid. </span>
               </b-form-invalid-feedback>
               <b-form-valid-feedback>
-                <span>Wszystko jest okej. </span>
+                <span>Okay. </span>
               </b-form-valid-feedback>
             </b-form-group>
             <b-form-group
@@ -36,14 +36,14 @@
                       @input="$v.password.$model = $event.trim()"
                       :state="!$v.password.$dirty ? null : !$v.password.$error"
                       required
-                      placeholder="Podaj hasło" />
+                      placeholder="Password" />
 
               <b-form-invalid-feedback>
-                <span v-if="!$v.password.required">To pole jest wymagane. </span>
-                <span v-if="!$v.password.minLength">Hasło musi posiadać conajmniej 8 znaków. </span>
+                <span v-if="!$v.password.required">This field is required. </span>
+                <span v-if="!$v.password.minLength">The password length must have 8 characters. </span>
               </b-form-invalid-feedback>
               <b-form-valid-feedback>
-                <span>Wszystko jest okej. </span>
+                <span>Okay. </span>
               </b-form-valid-feedback>
             </b-form-group>
 
@@ -84,6 +84,7 @@
           password: this.password,
           returnSecureToken: true
         });
+        this.$router.push({name: 'messages'});
       },
       onReset(event){
         event.preventDefault();
