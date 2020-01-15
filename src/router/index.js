@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Messages  from '../views/Messages.vue'
 
+import store from '../store/index.js'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -18,7 +20,14 @@ const routes = [
   {
     path: '/',
     name: 'messages',
-    component: Messages
+    component: Messages,
+    beforeEnter(to, from, next){
+      if (store.getters.isAuth) {
+        next();
+      } else {
+        next({name: 'login'});
+      }
+    }
   },
   {
     path: '/message/:id',

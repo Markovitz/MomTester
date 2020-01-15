@@ -6,20 +6,20 @@
         <b-col sm="6" offset-sm="3">
           <b-form @submit="onSubmit" @reset="onReset">
             <b-form-group
-                    label="Email:"
-                    label-for="email"
+                    label="Username:"
+                    label-for="username"
             >
               <b-form-input
-                      id="email"
-                      type="email"
-                      v-model="email"
-                      @input="$v.email.$model = $event.trim()"
-                      :state="!$v.email.$dirty ? null : !$v.email.$error"
+                      id="username"
+                      type="text"
+                      v-model="username"
+                      @input="$v.username.$model = $event.trim()"
+                      :state="!$v.username.$dirty ? null : !$v.username.$error"
                       required
-                      placeholder="Email address" />
+                      placeholder="User Name" />
               <b-form-invalid-feedback>
-                <span v-if="!$v.email.required">This field is required. </span>
-                <span v-if="!$v.email.email">Email is not valid. </span>
+                <span v-if="!$v.username.required">This field is required. </span>
+                <span v-if="!$v.username.minLength">The username length must have 3 characters. </span>
               </b-form-invalid-feedback>
               <b-form-valid-feedback>
                 <span>Okay. </span>
@@ -57,19 +57,19 @@
 </template>
 
 <script>
-  import { required, minLength, email } from 'vuelidate/lib/validators'
+  import { required, minLength } from 'vuelidate/lib/validators'
   
   export default {
     data(){
       return {
-        email: '',
+        username: '',
         password: ''
       }
     },
     validations: {
-      email: {
+      username: {
         required,
-        email
+        minLength: minLength(3)
       },
       password: {
         required,
@@ -80,7 +80,7 @@
       async onSubmit(event){
         event.preventDefault();
         await this.$store.dispatch('login', {
-          email: this.email,
+          username: this.username,
           password: this.password,
           returnSecureToken: true
         });
@@ -88,7 +88,7 @@
       },
       onReset(event){
         event.preventDefault();
-        this.email = '';
+        this.username = '';
         this.password = '';
         this.$v.$reset();
       }

@@ -10,7 +10,7 @@ export default new Vuex.Store({
     token: null,
     userId: null,
     messages: null,
-    API_KEY: null
+    API_KEY: 'AIzaSyCzTKIT79uVw8Ri6zbBRIvD2ZNpUA2AMHM'
   },
   mutations: {
     auth(state, payload) {
@@ -21,13 +21,17 @@ export default new Vuex.Store({
       state.messages = payload;
     }
   },
+  getters: {
+    isAuth: state => state.token !== null
+  },
   actions: {
-    async login({commit, state}, payload) {
+    async login({commit}, payload) {
       try{
-        let response = await authAxios.post(`accounts:signInWithPassword?key=${state.API_KEY}`, payload);
+        //let response = await authAxios.post(`accounts:signInWithPassword?key=${state.API_KEY}`, payload);
+        let response = await authAxios.post('http://localhost:8888/api/auth/signin', payload);
         commit('auth', {
-          token: response.data.idToken,
-          userId: response.data.localId
+          token:  response.data.accessToken,
+          userId: response.data.username
         });
         console.log('login', response);        
       }catch(err){

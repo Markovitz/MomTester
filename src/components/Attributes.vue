@@ -2,15 +2,32 @@
     <div>
         <h4>Attributes</h4>
         <b-table :fields="fields" :items="attributeArray">
-            <template v-slot:cell(Name)="data">
+            <template v-slot:cell(Name)="data">            
                 {{ data.item.Name }}
             </template>
             <template v-slot:cell(Value)="data">
-                <input :value='data.item.Value'/>
-                <b-button-group>
-                    <b-button>Modify</b-button>
-                    <b-button>Remove</b-button>
-                </b-button-group>
+                <div v-if="itemsToSave[data.index] == undefined">
+                    {{ data.item.Value }}
+                </div>
+                <div v-else>
+                    <b-form-input
+                        size="sm"
+                        type="text"
+                        v-model.trim="newValues[data.index]"
+                        @input="$v.newValues.$each[data.index].$model = $event.trim()"
+                        :state="!$v.newValues.$each[data.index].$dirty ? null : !$v.newValues.$each[data.index].$error"
+                        />
+                        <b-form-invalid-feedback>
+                            <span v-if="!$v.newValues.$each[data.index].minLength">Min length is 1. </span>
+                            <span v-if="!$v.newValues.$each[data.index].diffrentThanOldValue">New value must be diffrent. </span>
+                        </b-form-invalid-feedback>
+                        <b-form-valid-feedback>
+                            <span>Okay. </span>
+                        </b-form-valid-feedback>
+                </div>
+            </template>
+            <template v-slot:cell()="data">
+                <span class="new badge blue" data-badge-caption="" @click="addItemToSave(data.index, data.item)">Edit</span>
             </template>
         </b-table>
         <b-card title="Add New Attribute" header-tag="header" footer-tag="footer">
@@ -78,9 +95,15 @@ export default {
           },{
               key: 'Value',
               sortable: true
+          },{
+              key: 'Action',
+              sortable: false
           }],
           name: '',
-          value: ''
+          value: '',
+          oldValues: [],
+          newValues: [],
+          itemsToSave: []
       }
   },
   validations: {
@@ -91,6 +114,21 @@ export default {
     value: {
       required,
       minLength: minLength(1)
+    },
+    newValues: {
+        $each: {
+            minLength: minLength(1),
+            diffrentThanOldValue: function(val, elem){
+                let idx = null;
+                for(var i = 0; i < elem.length; i++) {
+                    if (elem[i] == val) {
+                        idx = i;
+                        break;
+                    }
+                }
+                return (val !== this.oldValues[idx]);
+            }
+        }      
     }
   },
   name: 'Attributes',
@@ -106,6 +144,17 @@ export default {
             name: this.name, 
             value: this.value
             });
+    },
+    addItemToSave(item, payload) {
+        if (this.itemsToSave[item] == undefined) {
+            this.$set(this.itemsToSave, item, payload)
+            this.$set(this.oldValues, item, payload.Value)
+            this.$set(this.newValues, item, payload.Value)
+        } else {
+            this.itemsToSave.splice(item, 1);
+            this.oldValues.splice(item, 1);
+            this.newValues.splice(item, 1);
+        }
     }
   },
   computed: {
